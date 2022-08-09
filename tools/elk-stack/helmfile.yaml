@@ -12,15 +12,14 @@ releases:
     values:
       - logstashPipeline:
           logstash.conf: |
-            input {
-              beats {
-                port => 5044
-              }
+            input { 
+              beats { port => 5044 } 
             }
-            output {
-              elasticsearch {
-                hosts => "http://elasticsearch-master:9200"
-              }
+            output { 
+              elasticsearch { 
+                hosts => ["http://elasticsearch-master:9200"]
+                index => "logstash"
+              } 
             }
         service:
           annotations: {}
@@ -48,7 +47,7 @@ releases:
               paths:
                 - /var/log/containers/*.log
               processors:
-              - add_kubernetes_metadata:
+              - add_kubernetes_metadata: 
                   host: ${NODE_NAME}
                   matchers:
                   - logs_path:
